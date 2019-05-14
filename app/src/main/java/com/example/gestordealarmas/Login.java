@@ -11,7 +11,8 @@ private EditText email,pass;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        email=findViewById(R.id.editCorreo);
+        pass=findViewById(R.id.editPass);
 
     }
 }
