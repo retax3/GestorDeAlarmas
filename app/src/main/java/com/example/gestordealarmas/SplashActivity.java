@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class SplashActivity extends AppCompatActivity {
     private ImageView logo;
     private TextView tv;
-    private long duracion=1500;
+    private long duracion=2000;
 
 
     @Override

@@ -21,12 +21,23 @@ private String correo;
         bIngresar=findViewById(R.id.bIngresar);
         bRegistrar=findViewById(R.id.bRegistrar);
 
+        //Botones
+
         bRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(Login.this,Registro.class);
                 startActivity(intent);
-                finish();
+                //finish();
+            }
+        });
+
+        bIngresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Login.this,MainActivity.class);
+                startActivity(intent);
+                //finish();
             }
         });
 

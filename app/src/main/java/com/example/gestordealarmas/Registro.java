@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class Registro extends AppCompatActivity {
 private Button bCancelar,bRegistrar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
