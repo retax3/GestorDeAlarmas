@@ -3,6 +3,7 @@ package com.example.gestordealarmas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -77,16 +78,27 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment=null;
+        Boolean fragmentSeleccionado=false;
 
         if (id == R.id.nav_alarmas) {
             // Handle the camera action
+            fragment=new AlarmasFragment();
+
+
+            fragmentSeleccionado=true;
         } else if (id == R.id.nav_perfil) {
+            fragment=new PerfilFragment();
+            fragmentSeleccionado=true;
 
         } else if (id == R.id.nav_registros) {
-
-        } else if (id == R.id.nav_alarmas) {
-
         }
+        if (fragmentSeleccionado){
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.contenedor,fragment).commit();
+        }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
