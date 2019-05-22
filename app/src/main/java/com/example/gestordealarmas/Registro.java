@@ -15,11 +15,21 @@ private Button bCancelar,bRegistrar;
         setContentView(R.layout.activity_registro);
 
         bCancelar=findViewById(R.id.bCancelar);
+        bRegistrar=findViewById(R.id.bRegistrar);
 
         bCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Registro.this,Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        bRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Registro.this,PinActivity.class);
                 startActivity(intent);
                 finish();
             }
