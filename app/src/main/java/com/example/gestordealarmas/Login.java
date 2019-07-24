@@ -3,6 +3,8 @@ package com.example.gestordealarmas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +47,23 @@ private String correo,contraseña;
             }
         });
 
+        bIngresar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                bIngresar.setText("");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         bIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +79,7 @@ private String correo,contraseña;
     }
 
     private void login(String email, String pass) {
-        String PLACES_URL = "http://10.3.2.79:8089/users/login";
+        String PLACES_URL = "http://192.168.0.40:8089/users/login";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -84,10 +103,11 @@ private String correo,contraseña;
                     public void onResponse(JSONObject response) {
                         JSONObject aux = response;
                         Toast.makeText(Login.this, response.toString() + " usuario encontrado", Toast.LENGTH_LONG).show();
-                        if (aux.equals(user)){
-                            Intent intent= new Intent(Login.this,MainActivity.class);
-                            startActivity(intent);
-                        }
+                        if (response!=null);
+                        Intent intent = new Intent(Login.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -96,7 +116,7 @@ private String correo,contraseña;
             }
         });
         requestQueue.add(jsonObjectRequest);
-        
+
 
     }
 }
