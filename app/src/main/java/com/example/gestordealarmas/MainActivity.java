@@ -84,14 +84,16 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_alarmas) {
             // Handle the camera action
             fragment=new AlarmasFragment();
-
-
             fragmentSeleccionado=true;
+
         } else if (id == R.id.nav_perfil) {
             fragment=new PerfilFragment();
             fragmentSeleccionado=true;
 
         } else if (id == R.id.nav_registros) {
+            fragment=new RegistrosFragment();
+            fragmentSeleccionado=true;
+
         }
         if (fragmentSeleccionado){
             getSupportFragmentManager().
