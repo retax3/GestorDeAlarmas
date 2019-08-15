@@ -67,11 +67,14 @@ private String correo,contraseña;
         bIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                correo = email.getText().toString();
+              /*  correo = email.getText().toString();
                 contraseña = pass.getText().toString();
                 System.out.println(correo+" "+contraseña);
                 Toast.makeText(Login.this,correo+" "+contraseña,Toast.LENGTH_LONG);
-                login(correo,contraseña);
+                login(correo,contraseña);*/
+                Intent intent = new Intent(Login.this,MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -79,7 +82,7 @@ private String correo,contraseña;
     }
 
     private void login(String email, String pass) {
-        String PLACES_URL = "http://192.168.0.40:8089/users/login";
+        String PLACES_URL = "http://10.3.7.135:8089/users/login";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -105,7 +108,16 @@ private String correo,contraseña;
                         Toast.makeText(Login.this, response.toString() + " usuario encontrado", Toast.LENGTH_LONG).show();
                         if (response!=null);
                         Intent intent = new Intent(Login.this,MainActivity.class);
-                        startActivity(intent);
+                        try {
+                            intent.putExtra("id",response.getString("id"));
+                            intent.putExtra("email",response.getString("email"));
+                            intent.putExtra("name",response.getString("name"));
+                            intent.putExtra("second_name",response.getString("second_name"));
+                            intent.putExtra("phone",response.getString("phone"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        startActivityForResult(intent,1);
                         finish();
 
                     }
