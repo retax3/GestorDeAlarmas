@@ -31,6 +31,12 @@ private String correo,nombre,apellido,telefono,contraseña;
         bCancelar=findViewById(R.id.bCancelar);
         bRegistrar=findViewById(R.id.bRegistrar);
 
+        email=findViewById(R.id.editCorreo);
+        name=findViewById(R.id.editNombre);
+        secondName=findViewById(R.id.editApellido);
+        phone=findViewById(R.id.editPhone);
+        password=findViewById(R.id.editPass);
+
         bCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,13 +55,16 @@ private String correo,nombre,apellido,telefono,contraseña;
                 telefono=phone.getText().toString();
                 contraseña=password.getText().toString();
                 registrar(correo,contraseña,nombre,apellido,telefono);
+
+
+
             }
         });
     }
 
 
     private void registrar(String correo, String contraseña, String nombre, String apellido, String telefono) {
-        String PLACES_URL = "http://10.3.2.79:8089/users";
+        String PLACES_URL = "http://192.168.0.40:8089/users";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -81,17 +90,17 @@ private String correo,nombre,apellido,telefono,contraseña;
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONObject aux = response;
-                        Toast.makeText(Registro.this, response.toString() + "Usuario Registrado", Toast.LENGTH_LONG).show();
-                        if (aux.equals(user)){
-                            Intent intent= new Intent(Registro.this,Login.class);
-                            startActivity(intent);
-                            finish();
-                        }
+                        Toast.makeText(Registro.this,
+                                response.toString() + " Usuario Registrado",
+                                Toast.LENGTH_LONG).show();
+                        Intent intent= new Intent(Registro.this,Login.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Registro.this, error.toString() + "Usuario No Registrado Intentelo Mas Tarde", Toast.LENGTH_LONG).show();
+                Toast.makeText(Registro.this, error.toString() + " Usuario No Registrado Intentelo Mas Tarde", Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.add(jsonObjectRequest);

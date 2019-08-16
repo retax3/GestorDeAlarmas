@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Bundle bundle=getIntent().getExtras();
+
     }
 
     @Override
@@ -89,8 +90,7 @@ public class MainActivity extends AppCompatActivity
             fragmentSeleccionado=true;
 
         } else if (id == R.id.nav_perfil) {
-            fragment=new PerfilFragment();
-            fragmentSeleccionado=true;
+
 
         } else if (id == R.id.nav_registros) {
             fragment=new RegistrosFragment();
