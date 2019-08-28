@@ -8,6 +8,7 @@
 
     <EditText
         android:id="@+id/editCorreo"
+        android:hint="Correo"
         android:layout_width="320dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -16,8 +17,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Correo"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +25,7 @@
 
     <EditText
         android:id="@+id/editPass"
+        android:hint="password"
         android:layout_width="320dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -38,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCorreo"
-        tools:text="Password" />
+        />
 
     <Button
         android:id="@+id/bIngresar"
