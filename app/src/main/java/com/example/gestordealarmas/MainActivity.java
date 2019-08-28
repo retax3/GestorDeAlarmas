@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Bundle bundle=getIntent().getExtras();
+        this.setTitle("Gestor de Alarmas");
 
     }
 
