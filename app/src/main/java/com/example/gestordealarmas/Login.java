@@ -108,15 +108,7 @@ private String correo,contraseña;
                         Toast.makeText(Login.this, response.toString() + " usuario encontrado", Toast.LENGTH_LONG).show();
                         if (response!=null);
                         Intent intent = new Intent(Login.this,MainActivity.class);
-                        try {
-                            intent.putExtra("id",response.getString("id"));
-                            intent.putExtra("email",response.getString("email"));
-                            intent.putExtra("name",response.getString("name"));
-                            intent.putExtra("second_name",response.getString("second_name"));
-                            intent.putExtra("phone",response.getString("phone"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        intent.putExtra("json",response.toString());
                         startActivityForResult(intent,1);
                         finish();
 
@@ -125,6 +117,7 @@ private String correo,contraseña;
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(Login.this, error.toString() + " usuario no encontrado", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
         requestQueue.add(jsonObjectRequest);

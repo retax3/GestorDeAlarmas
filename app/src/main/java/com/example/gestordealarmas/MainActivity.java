@@ -14,9 +14,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private JSONObject user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +49,21 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Bundle bundle=getIntent().getExtras();
+        if (getIntent().hasExtra("json")){
+            try {
+                user = new JSONObject(getIntent().getStringExtra("json"));
+                Toast.makeText(this,user.toString(),Toast.LENGTH_SHORT);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         this.setTitle("Gestor de Alarmas");
 
+
+    }
+
+    public JSONObject enviarUsuario(){
+        return user;
     }
 
     @Override
