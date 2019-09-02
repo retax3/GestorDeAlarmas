@@ -1,18 +1,24 @@
 package com.example.gestordealarmas;
 
 
+
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
+
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -20,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 /**
@@ -28,7 +34,8 @@ import java.util.List;
  */
 public class AlarmasFragment extends Fragment {
     private JSONObject user;
-    private ArrayList<Alarma> arrayList;
+    private String url = "http://67.23.253.235/~tes393/public/alarms";
+    private Switch sw;
 
 
     public AlarmasFragment() {
@@ -40,80 +47,70 @@ public class AlarmasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_alarmas, container, false);
-
+        final ArrayList<Alarma> arrayList = new ArrayList<>();
 
         //Obtener usuario desde activity
         MainActivity activity= (MainActivity) getActivity();
-        user=activity.enviarUsuario();
-
-
-
-
+        user = activity.enviarUsuario();
 
         ListView lv= view.findViewById(R.id.listaAlarmas);
+       // arrayList.add(new Alarma(1,"123","Casa",true,"-36.751819","-73.098878"));
 
-        arrayList= listarAlarmas(user);
 
-        MyAdapter myadapter= new MyAdapter(getActivity(),arrayList);
+        JSONObject id_user = new JSONObject();
+        final MyAdapter myadapter= new MyAdapter(getActivity(),arrayList);
         lv.setAdapter(myadapter);
 
+        try {
+            id_user.put("id_user",user.getString("id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
-        // Inflate the layout for this fragment
-        return view;
-    }
-
-
-    public ArrayList<Alarma> listarAlarmas(JSONObject user){
-        final ArrayList<Alarma> alarmas = new ArrayList<>();
-        String url= "http://67.23.253.235/~tes393/public/alarms";
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-
-        JsonArrayRequest request = new JsonArrayRequest(
-                Request.Method.POST, //GET or POST
-                url, //URL
-                null, //Parameters
-                new Response.Listener<JSONArray>() { //Listener OK
-
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                url,
+                id_user,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray responsePlaces) {
+                    public void onResponse(JSONObject response) {
                         try {
-                            JSONArray results = responsePlaces;
-
+                            JSONArray results= new JSONArray(response.getString("alarmas"));
                             for(int i = 0; i < results.length(); i++) {
                                 JSONObject alarm = results.getJSONObject(i);
                                 boolean stateAlarm;
-                                if (alarm.get("state")=="1"){
+                                if (alarm.getString("state").equals("1")){
                                     stateAlarm=true;
                                 }else stateAlarm=false;
+                                int id= Integer.parseInt(alarm.getString("id"));
 
                                 Alarma alarmItem = new Alarma(
-                                        (Integer) alarm.get("id"),
+                                        id,
                                         alarm.getString("id_alarm"),
                                         alarm.getString("name"),
                                         stateAlarm,
                                         alarm.getString("latitude"),
                                         alarm.getString("longitude"));
-                                alarmas.add(alarmItem);
-                                // adapter.notifyDataSetChanged();
-                                // Toast.makeText(MainActivity.this, tittle +"-"+ year, Toast.LENGTH_LONG).show();
+                                 arrayList.add(alarmItem);
+                                 myadapter.notifyDataSetChanged();
                             }
-                            //Toast.makeText(MainActivity.this, responsePlaces.toString(), Toast.LENGTH_LONG).show();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
-                }, new Response.ErrorListener() { //Listener ERROR
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(),"error " +error,Toast.LENGTH_SHORT).show();
             }
         });
-        //Send the request to the requestQueue
-
-        requestQueue.add(request);
+        requestQueue.add(jsonObjectRequest);
 
 
-        return alarmas;
+
+        return view;
     }
 
 

@@ -1,30 +1,32 @@
 package com.example.gestordealarmas;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.View;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private JSONObject user;
+    private TextView correoUser;
+    private String idAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +34,27 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        AlarmasFragment f=new AlarmasFragment();
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.contenedor,f).commit();
+
+        FloatingActionButton fab = findViewById(R.id.agregarAlarma);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                CrearAlarmaFragment fragment = new CrearAlarmaFragment();
+                getSupportFragmentManager().
+                        beginTransaction().
+                        replace(R.id.contenedor,fragment).commit();
+
+
             }
         });
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -58,6 +73,15 @@ public class MainActivity extends AppCompatActivity
             }
         }
         this.setTitle("Gestor de Alarmas");
+
+        View headView= navigationView.getHeaderView(0);
+        try {
+            correoUser=headView.findViewById(R.id.correoUsuario);
+            correoUser.setText(user.getString("email"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -91,9 +115,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -111,8 +133,9 @@ public class MainActivity extends AppCompatActivity
             fragment=new AlarmasFragment();
             fragmentSeleccionado=true;
 
-        } else if (id == R.id.nav_perfil) {
-
+        } else if (id == R.id.agregarAlarma) {
+            fragment=new CrearAlarmaFragment();
+            fragmentSeleccionado=true;
 
         } else if (id == R.id.nav_registros) {
             fragment=new RegistrosFragment();
@@ -129,5 +152,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setIdAlarm(String idAlarm){
+        this.idAlarm=idAlarm;
     }
 }

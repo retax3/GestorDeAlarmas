@@ -1,14 +1,16 @@
 package com.example.gestordealarmas;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
 private EditText email,pass;
@@ -69,12 +73,15 @@ private String correo,contraseña;
             public void onClick(View v) {
                 correo = email.getText().toString();
                 contraseña = pass.getText().toString();
-                System.out.println(correo+" "+contraseña);
                 Toast.makeText(Login.this,correo+" "+contraseña,Toast.LENGTH_LONG);
-                login(correo,contraseña);
-               /* Intent intent = new Intent(Login.this,MainActivity.class);
-                startActivity(intent);
-                finish();*/
+                if (!validarEmail(correo)){
+                    email.setError("Email Invalido");
+                }else {
+                    if (correo=="" && contraseña==""){
+                        Toast.makeText(Login.this, "Por favor llenar todos los campos", Toast.LENGTH_SHORT).show();
+
+                    } else {login(correo,contraseña);}
+                }
             }
         });
 
@@ -87,8 +94,15 @@ private String correo,contraseña;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
 
+
         //Prepare the Request
-        final JSONObject user, aux = null;
+        final JSONObject user, aux;
+        aux=new JSONObject();
+        try {
+            aux.put("error","No autorizado");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         user = new JSONObject();
 
         try {
@@ -104,24 +118,34 @@ private String correo,contraseña;
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        JSONObject aux = response;
-                        Toast.makeText(Login.this, response.toString() + " usuario encontrado", Toast.LENGTH_LONG).show();
-                        if (response!=null);
-                        Intent intent = new Intent(Login.this,MainActivity.class);
-                        intent.putExtra("json",response.toString());
-                        startActivityForResult(intent,1);
-                        finish();
+
+                        if (aux.length()==response.length()){
+                            Toast.makeText(Login.this,
+                                    "Usuario o contraseña incorrectos",
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(Login.this,
+                                    response.toString() + " usuario encontrado",
+                                    Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(Login.this,MainActivity.class);
+                            intent.putExtra("json",response.toString());
+                            startActivityForResult(intent,1);
+                            finish();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Login.this, error.toString() + " usuario no encontrado", Toast.LENGTH_LONG).show();
-                finish();
             }
         });
         requestQueue.add(jsonObjectRequest);
 
 
+    }
+
+    private boolean validarEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 }

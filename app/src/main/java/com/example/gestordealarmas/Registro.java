@@ -1,12 +1,13 @@
 package com.example.gestordealarmas;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,7 +33,7 @@ private String correo,nombre,apellido,telefono,contraseña;
         bRegistrar=findViewById(R.id.bRegistrar);
 
         email=findViewById(R.id.editCorreo);
-        name=findViewById(R.id.editNombre);
+        name=findViewById(R.id.editNombreAlarma);
         secondName=findViewById(R.id.editApellido);
         phone=findViewById(R.id.editPhone);
         password=findViewById(R.id.editPass);
