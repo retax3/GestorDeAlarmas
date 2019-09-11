@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity
             fragment=new AlarmasFragment();
             fragmentSeleccionado=true;
 
-        } else if (id == R.id.agregarAlarma) {
-            fragment=new CrearAlarmaFragment();
+        } else if (id == R.id.nav_perfil) {
+            fragment=new PerfilFragment();
             fragmentSeleccionado=true;
 
         } else if (id == R.id.nav_registros) {
