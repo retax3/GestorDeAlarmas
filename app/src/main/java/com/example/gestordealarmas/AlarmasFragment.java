@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 public class AlarmasFragment extends Fragment {
     private JSONObject user;
-    private String url = "http://67.23.253.235/~tes393/public/alarms";
+    private String url = "http://www.testproyecto.com/alarms";
     private Switch sw;
 
 

@@ -157,4 +157,13 @@ public class MainActivity extends AppCompatActivity
     public void setIdAlarm(String idAlarm){
         this.idAlarm=idAlarm;
     }
+
+    public String getIdAlarm(){
+        return idAlarm;
+    }
+
+    public String getIdUser() throws JSONException {
+        return user.getString("id");
+    }
+
 }

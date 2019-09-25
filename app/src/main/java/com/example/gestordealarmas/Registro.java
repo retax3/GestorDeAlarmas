@@ -65,7 +65,7 @@ private String correo,nombre,apellido,telefono,contraseña;
 
 
     private void registrar(String correo, String contraseña, String nombre, String apellido, String telefono) {
-        String PLACES_URL = "http://67.23.253.235/~tes393/public/users";
+        String PLACES_URL = "http://www.testproyecto.com/public/users";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 

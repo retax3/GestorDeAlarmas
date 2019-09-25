@@ -115,7 +115,7 @@ static class ViewHOlderItem {
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-        String PLACES_URL = "http://67.23.253.235/~tes393/public/alarms/state";
+        String PLACES_URL = "http://www.testproyecto.com/alarms/state";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,

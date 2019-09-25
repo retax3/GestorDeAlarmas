@@ -137,7 +137,7 @@ private final String activ="Activada",desac="Desactivada";
             agregarAlarma(alarma);
     }
     public void agregarAlarma(JSONObject alarm){
-        String PLACES_URL = "http://67.23.253.235/~tes393/public/alarms/create";
+        String PLACES_URL = "http://www.testproyecto.com/alarms/create";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,

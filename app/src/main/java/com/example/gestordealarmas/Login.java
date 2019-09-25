@@ -1,7 +1,9 @@
 package com.example.gestordealarmas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -28,6 +30,7 @@ public class Login extends AppCompatActivity {
 private EditText email,pass;
 private Button bIngresar,bRegistrar;
 private String correo,contraseña;
+private ProgressDialog verificando;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,21 @@ private String correo,contraseña;
             public void onClick(View v) {
                 correo = email.getText().toString();
                 contraseña = pass.getText().toString();
+                verificando= new ProgressDialog(Login.this);
+                verificando.setTitle("Verificando");
+                verificando.setMessage("Autenticando datos");
+                verificando.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                verificando.setMax(100);
+                Runnable progressRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        verificando.cancel();
+                    }
+                };
+                Handler pdCanceller = new Handler();
+                pdCanceller.postDelayed(progressRunnable, 3000);
+                
                 Toast.makeText(Login.this,correo+" "+contraseña,Toast.LENGTH_LONG);
                 if (!validarEmail(correo)){
                     email.setError("Email Invalido");
@@ -89,7 +107,7 @@ private String correo,contraseña;
     }
 
     private void login(String email, String pass) {
-        String PLACES_URL = "http://67.23.253.235/~tes393/public/users/login";
+        String PLACES_URL = "http://www.testproyecto.com/users/login";
         // Instantiate the RequestQueue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
